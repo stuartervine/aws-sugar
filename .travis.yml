@@ -1,3 +1,12 @@
 language: java
 jdk:
-  - oraclejdk7
+- oraclejdk7
+deploy:
+  provider: s3
+  access_key_id: 0VVR9NDDF595SBC6C8R2
+  secret_access_key:
+    secure: fEgBEBLer3FrJmkWKAsjMumc3ZSKzVgWOhR43B2UcGYkQLSGqym3vQu0RvQAHgZWAhLZEPchclLTOCpMFoGbm8cxt5EYQTBCDJVrYYUkoc6F9SXa4BzPpHmIsRCdOVgpQ/mCRbWxhA/EB8avj4e39ZbUXVybTsQ2zzDbmvVy/o0=
+  bucket: repo.ervines.com
+  upload-dir: aws-sugar
+  on:
+    repo: stuartervine/aws-sugar
