@@ -7,6 +7,6 @@ deploy:
   secret_access_key:
     secure: fEgBEBLer3FrJmkWKAsjMumc3ZSKzVgWOhR43B2UcGYkQLSGqym3vQu0RvQAHgZWAhLZEPchclLTOCpMFoGbm8cxt5EYQTBCDJVrYYUkoc6F9SXa4BzPpHmIsRCdOVgpQ/mCRbWxhA/EB8avj4e39ZbUXVybTsQ2zzDbmvVy/o0=
   bucket: repo.ervines.com
-  upload-dir: aws-sugar
+  local-dir: build/artifacts
   on:
     repo: stuartervine/aws-sugar

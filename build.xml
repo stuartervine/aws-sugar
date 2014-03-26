@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="aws-sugar" default="build">
+<project name="awssugar" default="build">
 
-    <property name="build.number" value="dev.build"/>
+    <property environment="env"/>
+    <property name="build.number" value="${env.TRAVIS_BUILD_NUMBER}"/>
     <property name="build" value="${basedir}/build"/>
-    <property name="artifacts" value="${build}/artifacts"/>
-    <property name="reports" value="${artifacts}/reports"/>
+    <property name="artifacts" value="${build}/artifacts/com/github/stuartervine/awssugar/${env.TRAVIS_BUILD_NUMBER}"/>
+    <property name="reports" value="${build}/reports"/>
     <property name="src" value="${basedir}/src"/>
     <property name="test" value="${basedir}/test"/>
     <property name="release.version" value="${build.number}"/>
