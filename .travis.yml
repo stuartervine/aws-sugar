@@ -1,8 +1,6 @@
 language: java
 jdk:
 - oraclejdk7
-before_deploy: "ls -al"
-after_deploy: "ls -al"
 deploy:
   provider: s3
   access_key_id: 0VVR9NDDF595SBC6C8R2
