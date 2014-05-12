@@ -38,24 +38,28 @@ public class SerialSqsMessageProcessor {
             @Override
             public void run() {
                 while (true) {
-                    try {
-                        List<Message> msgs = amazonSQS.receiveMessage(new ReceiveMessageRequest(queueName).withMaxNumberOfMessages(1)).getMessages();
-                        if (msgs.size() > 0) {
-                            Message message = msgs.get(0);
-                            messageHandler.onMessage(message.getBody());
-                            amazonSQS.deleteMessage(new DeleteMessageRequest(queueName, message.getReceiptHandle()));
-                        } else {
-                            //log?
-                            sleep(sqsPollingTime.millis);
-                        }
-                    } catch (Exception e) {
-                        errorHandler.handle(e);
-                        executorService.shutdown();
-                    }
+                    processMessage(queueName);
                 }
             }
         });
 
+    }
+
+    public void processMessage(String queueName) {
+        try {
+            List<Message> msgs = amazonSQS.receiveMessage(new ReceiveMessageRequest(queueName).withMaxNumberOfMessages(1)).getMessages();
+            if (msgs.size() > 0) {
+                Message message = msgs.get(0);
+                messageHandler.onMessage(message.getBody());
+                amazonSQS.deleteMessage(new DeleteMessageRequest(queueName, message.getReceiptHandle()));
+            } else {
+                //log?
+                sleep(sqsPollingTime.millis);
+            }
+        } catch (Exception e) {
+            errorHandler.handle(e);
+            executorService.shutdown();
+        }
     }
 
     public void shutdown() {
