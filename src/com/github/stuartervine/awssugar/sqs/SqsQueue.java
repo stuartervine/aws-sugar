@@ -1,14 +1,20 @@
-package com.github.stuartervine.awssugar;
+package com.github.stuartervine.awssugar.sqs;
 
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.CreateQueueRequest;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
 import com.amazonaws.services.sqs.model.ReceiveMessageResult;
+import com.github.stuartervine.awssugar.ErrorHandler;
+import com.github.stuartervine.awssugar.ExplicitSender;
+import com.github.stuartervine.awssugar.MessageHandler;
+import com.github.stuartervine.awssugar.MessageQueue;
+import com.github.stuartervine.awssugar.sqs.ExplicitSqsReceiver;
+import com.github.stuartervine.awssugar.sqs.ExplicitSqsSender;
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.totallylazy.Sequences;
 
-public class SqsQueue {
+public class SqsQueue implements MessageQueue {
     private final AmazonSQS amazonSQS;
     private final String queueName;
 
@@ -17,12 +23,12 @@ public class SqsQueue {
         this.queueName = queueName;
     }
 
-    public SqsSender createSender() {
-        return SqsSender.sqsSender(amazonSQS);
+    public ExplicitSender createSender() {
+        return new ExplicitSqsSender(amazonSQS, queueName);
     }
 
-    public SqsReceiver createReceiver(MessageHandler messageHandler, ErrorHandler errorHandler) {
-        return SqsReceiver.sqsReceiver(amazonSQS, queueUrl(), messageHandler, errorHandler);
+    public ExplicitSqsReceiver createReceiver(MessageHandler messageHandler, ErrorHandler errorHandler) {
+        return ExplicitSqsReceiver.sqsReceiver(amazonSQS, queueUrl(), messageHandler, errorHandler);
     }
 
     private String queueUrl() {
